@@ -1,7 +1,7 @@
 # Object-Oriented Programming - Car Park System
 
 > **Assessment Guide:**
-> A step-by-step worksheet you can use to complete all the project's coding and version control requirements.
+> A step-by-step worksheet you can use to complete all the project's coding and version control requirements. Please raise any issues you identify with the guide [here](https://github.com/NM-TAFE/civ-ipriot-in-class-demos/issues) using the tag `project-guide`.
 
 ![Image of a modern car park](images/new_car_park.png)
 
@@ -11,16 +11,16 @@ In this assessment, you must design and implement a simplified car park system u
 
 The system will be implemented in Python using the PyCharm IDE. You will use version control to manage your project and submit your work.
 
-This guide provides detailed step-by-step instructions for completing the project. You do **not** have to use this guide, but it will make your life easier and ensure you meet **all** project requirements. If you choose not to follow the guide, read the submission requirements carefully to ensure you meet all the requirements.
+This guide provides detailed step-by-step instructions for completing the project. You do **not** have to use this guide, but it will make your life easier and ensure you meet **all** project requirements. If you choose not to follow the guide, read the submission requirements *carefully* (from your Blackboard **Assessments** tab) to ensure you meet all requirements.
 
 ## Instructions
 
 ### Set up version control
 
-1. Create a new repository on GitHub. Initialize it with a `README.md`, .`gitignore`, and optionally a license.
+1. Create a new repository on GitHub. Initialize it with a `README.md`, .`gitignore`, this project guide, and optionally a license.
 2. Clone the repository to your local machine.
 3. Update the `README.md` file with a brief project description.
-4. Modify the `.gitignore` file to exclude the `.idea/` folder. Pycharm creates this folder and contains project-specific settings that should not be shared.
+4. Modify the `.gitignore` file to exclude the `.idea/` folder. Pycharm creates this folder containing project-specific settings that should not be shared.
 5. Create a virtual environment for your project. This will allow you to install packages without affecting other projects on your machine.
 
    ```bash
@@ -380,7 +380,7 @@ Now consider, between the `CarPark`, `Sensor`, and `Display` classes, which clas
 
 You realize that you need to maintain the number of available bays. The number of available bays is a curious case. On the one hand, this value is an attribute of the car park. However, it is also a **property** of the car park's capacity and the number of cars in the car park. In other words, it is a **derived** value. We can calculate the number of available bays by subtracting the number of cars from the capacity. We can do this in the `CarPark` class by adding a `get_available_bays` method. This method will return the number of available bays.
 
-But you're uncomfortable with this because even though you derive the value through a calculation, it still seems like an attribute. Python has a built-in way of treating a method as a simple attribute. We can use it to protect values and make attributes derived via simple calculations easier to access. Fittingly, it is called a **property**. We can create a property by adding a `@property` decorator (we'll learn more about decorators in the diploma) to a method. While we have yet to fully understand decorators, the important thing is that they make a method act like an attribute.
+But you're uncomfortable with this because even though you derive the value through a calculation, it still seems conceptually like an attribute. Python has a built-in way of treating a simple method that represents a property of an object as an attribute. We can use it to protect values and make attributes derived via simple calculations easier to access. Fittingly, it is called a **property**. We can create a property by adding a `@property` decorator (we'll learn more about decorators in the diploma) to a method. While decorators can have a wide range of uses, there are only a few you need to use right now, and you just have to remember what they do rather than how they do it. A `property` decorator will make a method behave like an attribute (i.e. we access it rather than call it). 
 
 Let's add `available_bays` as a property now:
 
@@ -391,21 +391,25 @@ Let's add `available_bays` as a property now:
          return self.capacity - len(self.plates)
 ```
 
-Notice that we did **not** use a verb in a property name. This is because properties are accessed like attributes. For example, `car_park.available_bays` instead of `car_park.get_available_bays()`.
+Notice that we did **not** use a verb in a property name. This is because, again, properties are accessed like attributes. For example, `car_park.available_bays` instead of `car_park.get_available_bays()`.
 
-A bonus is that if someone accidentally tries to set the value to this property, they will get an error. This is because we have not defined a property setter, and this is a good thing in this case.
+A bonus is that if someone accidentally tries to set the value to this property, they will get an error. This is because we have not defined a property setter, which is good in this case.
 
-You recognize an issue: What if the number of cars that enter exceeds capacity?
+***
 
-We might not be able to stop this from happening!
+O-oh!
 
-But what should happen if it does? Do we want to allow the number of available bays to be negative? Or should we set it to zero? Or should we raise an exception? Something else?
+You recognize an issue: **What if the number of cars that enter exceeds capacity?**
+
+We might not be able to stop this from happening! Recall that there is no boom gate or access control in the car park, so cars can still come in even if the car park is full. 
+
+But what should our car park do when this happens? Do we want to allow the number of available bays to be negative? Should we set it to zero? Should we raise an exception? Something else?
 
 You discussed with the senior developer and decided that if the number of plates exceeds the capacity, you will return 0.
 
 > Modify the `available_bays` property to return 0 if the number of plates exceeds the capacity.
 
---------
+***
 
 #### Back to the update displays method
 
