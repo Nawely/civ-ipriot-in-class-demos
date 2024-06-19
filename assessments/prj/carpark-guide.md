@@ -1096,4 +1096,4 @@ In your final submission, you must include any files you created or modified. Th
 
 --------
 
-![Image of a car park on the moon](images/moon_park.png)
+![Image of a car park on the moon](Images/moon_park.png)
